@@ -1,6 +1,7 @@
+import { log } from "console";
 import { NextFunction, Request, Response } from "express";
 
-class ValidationError extends Error {}
+export class ValidationError extends Error {}
 
 export const errorHandler = (
   err: unknown,
@@ -9,7 +10,6 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   console.error(err);
-
   if (err instanceof ValidationError) {
     return res.status(400).json({
       message: err.message,
