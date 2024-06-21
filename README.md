@@ -18,6 +18,6 @@
 
 ## Front
 
-The backend for this application can be found at: [Polska Dezerter Backend](https://github.com/Lukaszglaz/Pol-Dez-Client)
+The backend for this application can be found at: [Polska Dezerter Front-End](https://github.com/Lukaszglaz/Pol-Dez-Client)
 
 
