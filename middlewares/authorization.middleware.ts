@@ -10,11 +10,12 @@ export const authorizationMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  const jwt = req.cookies.jwt;
+  const jwt = req.headers.token as string;
+
   if (!jwt) throw new ValidationError("Brak ciasteczka autoryzującego");
 
   // Sprawdzenie czy token nie wygasł
-  const token = verify(jwt, JWT_SECRET) as JwtPayload;
+  const token = verify(jwt, JWT_SECRET) as unknown as JwtPayload;
 
   const [results] = (await pool.execute("SELECT * FROM users WHERE id = :id ", {
     id: token.userId,

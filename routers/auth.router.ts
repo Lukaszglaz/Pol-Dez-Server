@@ -12,7 +12,7 @@ export const authRouter = Router()
   .get("/is-logged", asyncMiddleware(authorizationMiddleware), (req, res) => {
     res.status(200).json({
       message: "Użytkownik jest aktualnie zalogowany",
-      user: (res as any).user,
+      results: (res as any).user,
     });
   })
 
@@ -34,18 +34,20 @@ export const authRouter = Router()
 
     const token = sign({ userId: user.id }, JWT_SECRET, { expiresIn: "1d" });
 
-    res.cookie("jwt", JSON.stringify(token), {
-      secure: false,
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365,
-    });
     res.status(200).json({
       message: "Użytkownik został poprawnie zalogowany",
+      results: {
+        user: {
+          id: user.id,
+          name: user.name,
+          role: user.role,
+        },
+        token,
+      },
     });
   })
 
   .get("/logout", asyncMiddleware(authorizationMiddleware), (req, res) => {
-    res.clearCookie("jwt");
     res.status(200).json({
       message: "Użytkownik został poprawnie wylogowany",
     });
