@@ -1,10 +1,10 @@
 import express from "express";
+import "express-async-errors";
 import { PORT } from "./config/config";
 import { errorHandler } from "./middlewares/error-handler.middleware";
 import { authRouter, userRouter } from "./routers";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import "express-async-errors";
 
 // console.log(process.env);
 
