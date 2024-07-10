@@ -1,12 +1,17 @@
 import express from "express";
 import "express-async-errors";
-import { PORT } from "./config/config";
+import { CLASH_KEY, PORT } from "./config/config";
 import { errorHandler } from "./middlewares/error-handler.middleware";
-import { authRouter, userRouter } from "./routers";
+import { authRouter, panelRouter, userRouter } from "./routers";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { Client } from "clashofclans.js";
 
 // console.log(process.env);
+
+export const client = new Client({
+  keys: [CLASH_KEY],
+});
 
 const app = express();
 
@@ -21,6 +26,7 @@ app.use(
 
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
+app.use("/panel", panelRouter);
 
 app.use(errorHandler);
 
