@@ -1,6 +1,6 @@
 import express from "express";
 import "express-async-errors";
-import { CLASH_EMAIL, CLASH_KEY, CLASH_PASSWORD, PORT } from "./config/config";
+import { CLASH_EMAIL, CLASH_PASSWORD, PORT } from "./config/config";
 import { errorHandler } from "./middlewares/error-handler.middleware";
 import { authRouter, panelRouter, userRouter } from "./routers";
 import cors from "cors";
