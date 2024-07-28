@@ -16,4 +16,5 @@ export const NODEMAILER_SECURE = env.NODEMAILER_SECURE;
 export const NODEMAILER_USER = env.NODEMAILER_USER;
 export const NODEMAILER_PASS = env.NODEMAILER_PASS;
 
-export const CLASH_KEY = env.CLASH_KEY;
+export const CLASH_EMAIL = env.CLASH_EMAIL;
+export const CLASH_PASSWORD = env.CLASH_PASSWORD;
