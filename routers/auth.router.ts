@@ -35,14 +35,14 @@ export const authRouter = Router()
     )) as UserResults;
     const user = results[0];
 
-    if (!user) throw new ValidationError("Błędny email lub haslo");
+    if (!user) throw new ValidationError("Incorrect email or password.");
 
     const match = await compare(password, user.password);
-    if (!match) throw new ValidationError("Błędny email lub haslo");
+    if (!match) throw new ValidationError("Incorrect email or password.");
 
     const token = sign({ userId: user.id }, JWT_SECRET, { expiresIn: "1d" });
     res.status(200).json({
-      message: "Użytkownik został poprawnie zalogowany",
+      message: "You have successfully logged in.",
       results: {
         user: {
           id: user.id,
@@ -75,7 +75,7 @@ export const authRouter = Router()
     if (result.length === 0) {
       res.status(200).json({
         message:
-          "Jeśli istnieje taki użytkownik, wysłaliśmy mu e-mail na jego skrzynkę.",
+          "If there is such a user, we have sent them an e-mail to their mailbox.",
       });
     }
 
@@ -101,7 +101,7 @@ export const authRouter = Router()
 
     res.status(200).json({
       message:
-        "Jeśli istnieje taki użytkownik, wysłaliśmy mu e-mail na jego skrzynkę.",
+        "If there is such a user, we have sent them an e-mail to their mailbox.",
     });
   })
 
@@ -117,27 +117,26 @@ export const authRouter = Router()
       }
     )) as TokenResults;
 
-    if (tokens.length === 0) throw new ValidationError("Nie znaleziono Tokenu");
+    if (tokens.length === 0) throw new ValidationError("Token not found.");
 
     if (tokens[0].expiredAt.getTime() < new Date().getTime()) {
       (await pool.execute("DELETE FROM tokens  WHERE id = :id", {
         id: tokens[0].id,
       })) as TokenResults;
-      throw new ValidationError("Token wygasł, Wyślij zapytanie ponownie");
+      throw new ValidationError("Token expired, please send request again.");
     }
     const [users] = (await pool.execute("SELECT * FROM users WHERE id = :id ", {
       id: tokens[0].userId,
     })) as TokenResults;
 
-    if (users.length === 0)
-      throw new ValidationError("Nie znaleziono użytkownika");
+    if (users.length === 0) throw new ValidationError("User not found.");
     // Walidacja
 
     const validation = checkValidation(req.body, ResetPasswordSchema) || [];
 
     if (confirmPassword !== password) {
       validation.push({
-        error: "Hasła muszą być takie same",
+        error: "Passwords must be the same.",
         key: "passwordEquality",
       });
     }
@@ -167,18 +166,18 @@ export const authRouter = Router()
     // Wysyłka wiadomości zwrotnej
 
     res.status(200).json({
-      results: "Hasło zostało poprawnie zmienone",
+      results: "The password has been changed correctly.",
     });
   })
 
   .get("/logout", asyncMiddleware(authorizationMiddleware), (req, res) => {
     res.status(200).json({
-      message: "Użytkownik został poprawnie wylogowany",
+      message: "The user was successfully logged out.",
     });
   })
   .get("/is-logged", asyncMiddleware(authorizationMiddleware), (req, res) => {
     res.status(200).json({
-      message: "Użytkownik jest aktualnie zalogowany",
+      message: "The user is currently logged in.",
       results: (res as any).user,
     });
   });

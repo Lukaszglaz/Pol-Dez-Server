@@ -25,7 +25,7 @@ export const userRouter = Router()
 
     if (result.length > 0) {
       validation.push({
-        error: "Użytkownik o podanym adresie e-mail już istnieje",
+        error: "The user with the specified e-mail address already exists.",
         key: "E-mail",
       });
     }
@@ -45,7 +45,7 @@ export const userRouter = Router()
 
     if (result2.length > 0) {
       validation.push({
-        error: "Tag gracza jest już zajęty",
+        error: "The player's tag is already taken.",
         key: "Player Tag",
       });
     }
@@ -72,6 +72,6 @@ export const userRouter = Router()
     await sendMail(email, MailKey.signup);
 
     res.status(201).json({
-      message: "Użytkownik został poprawnie stworzony",
+      message: "The user has been correctly created.",
     });
   });
