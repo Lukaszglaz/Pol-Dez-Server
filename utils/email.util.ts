@@ -4,7 +4,6 @@ import {
   NODEMAILER_HOST,
   NODEMAILER_PASS,
   NODEMAILER_PORT,
-  NODEMAILER_SECURE,
   NODEMAILER_USER,
 } from "../config/config";
 

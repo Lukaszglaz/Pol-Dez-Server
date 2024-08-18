@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { client } from "../index";
 import { authorizationMiddleware } from "../middlewares/authorization.middleware";
-import { log } from "console";
 
 export const panelRouter = Router().get(
   "/",
